@@ -17,10 +17,24 @@
 yt2ipfs [--api <ipfs-api-url>] <youtube-id-or-link>
 ```
 
-## Example
+## Examples
+
+### Download a link
 
 ```
->
+yt2ipfs https://www.youtube.com/watch?v=vyRZBeMtkrA
+```
+
+### Just the youtube id
+
+```
+yt2ipfs vyRZBeMtkrA
+```
+
+### Use another ipfs API
+
+```
+yt2ipfs --api /ip4/127.0.0.1/tcp/9096 https://www.youtube.com/watch?v=vyRZBeMtkrA
 ```
 
 ## LICENSE
