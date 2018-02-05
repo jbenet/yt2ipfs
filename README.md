@@ -22,7 +22,19 @@ yt2ipfs [--api <ipfs-api-url>] <youtube-id-or-link>
 ### Download a link
 
 ```
-yt2ipfs https://www.youtube.com/watch?v=vyRZBeMtkrA
+> yt2ipfs https://www.youtube.com/watch?v=vyRZBeMtkrA
+using ipfs api at: /ip4/127.0.0.1/tcp/9095
+cd temp dir: /tmp/yt2ipfs.2018-02-05T03:08:43Z.0sDA1j
+downloading youtube video: https://www.youtube.com/watch?v=vyRZBeMtkrA
+[youtube] vyRZBeMtkrA: Downloading webpage
+[youtube] vyRZBeMtkrA: Downloading video info webpage
+[youtube] vyRZBeMtkrA: Extracting video information
+[download] Destination: Filecoin-Protocol-vyRZBeMtkrA.mp4
+[download] 100% of 230.80MiB in 3:09
+adding video to ipfs...done
+local gateway: http://localhost:8080/ipfs/QmUhBnUYYywHqdHKy44zvbBpdrim4NGGZ2dntK8bTnohfT
+global gateway: https://ipfs.io/ipfs/QmUhBnUYYywHqdHKy44zvbBpdrim4NGGZ2dntK8bTnohfT
+cleaning up...done
 ```
 
 ### Just the youtube id
