@@ -1,6 +1,6 @@
 # yt2ipfs - re-host youtube videos on ipfs
 
-> Please only use on videos you are allowed to download, such as your own or out of copyright.
+> Only intended for use on videos you are allowed to download, such as your own or out of copyright.
 
 ## Install
 
