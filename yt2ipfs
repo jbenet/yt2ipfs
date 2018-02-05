@@ -1,0 +1,87 @@
+#!/bin/sh
+
+set -e
+
+ipfsAPI=/ip4/127.0.0.1/tcp/5001
+clusterAPI=/ip4/127.0.0.1/tcp/9095
+localGWY=http://localhost:8080
+globalGWY=https://ipfs.io
+
+# to use default cluster api, uncomment this line.
+# ipfsAPI="$clusterAPI"
+
+usage() {
+  echo "yt2ipfs [--api <ipfs-api-url>] <youtube-id-or-link>"
+  exit 0
+}
+
+die() {
+  echo "error: $@"
+  exit 1
+}
+
+assertDep() {
+  which "$1" >/dev/null || die "please install dependency: $1"
+}
+
+assertDeps() {
+  assertDep "ipfs"
+  assertDep "youtube-dl"
+}
+
+assertIpfsOnline() {
+  ipfs --api "$ipfsAPI" swarm addrs local >/dev/null || die "ipfs node offline"
+}
+
+printIpfsLinks() {
+  hash="$1"
+
+  echo "local gateway: $localGWY/ipfs/$hash"
+  echo "global gateway: $globalGWY/ipfs/$hash"
+}
+
+# ---- main ----
+
+if [ $# -eq 0 ]; then
+  usage
+elif [ "$1" = "-h" ]; then
+  usage
+elif [ "$1" = "--help" ]; then
+  usage
+else
+
+  if [ "$1" == "--api" ]; then
+    ipfsAPI="$2"
+    ytlink="$3"
+  else
+    ytlink="$1"
+  fi
+
+  if [ "$ytlink" == "" ]; then
+    usage
+  fi
+
+  assertDeps
+
+  echo "using ipfs api at: $ipfsAPI"
+  assertIpfsOnline
+
+  d=$(date +"%Y-%m-%dT%H:%M:%SZ")
+  tmpdir=$(mktemp -d "/tmp/yt2ipfs.$d.XXXXXX")
+  echo "cd temp dir: $tmpdir"
+  cd "$tmpdir"
+
+  echo "downloading youtube video: $ytlink"
+  youtube-dl -f mp4 "$ytlink"
+
+  printf "adding video to ipfs..."
+  hash=$(ipfs --api "$ipfsAPI" add -q -r . | tail -n1)
+  echo "done"
+
+  printIpfsLinks "$hash"
+
+  printf "cleaning up..."
+  cd ".."
+  rm -r "$tmpdir"
+  echo "done"
+fi
